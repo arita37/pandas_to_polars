@@ -14,6 +14,17 @@
 
 #### Code Snippets 1
 ```python
+def pd_compare(df, dfp):
+     key = True
+     for j in dfp.columns:
+       for i in range(nmax):
+         if dfp[j][i] != df[j][i]:
+           key = dfp[j][i], df[j][i]
+           break
+     print(f'Our Pandas and Palars dataframe output are same: {key}')
+
+
+
 nmin = 2
 nmax=5000
 # df = pd_create_random(nmax=5000000)
