@@ -7,6 +7,8 @@ Code snippets for polars conversion
 https://colab.research.google.com/drive/1Y5wKYadWzT4tLArOygem1aB8kDfQctac?usp=sharing
 
 
+### Stackoverflow
+https://stackoverflow.com/questions/tagged/python-polars
 
 
 
