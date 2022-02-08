@@ -3,7 +3,7 @@
 
 
 #### 2) Colab examples
-     https://colab.research.google.com/drive/1Y5wKYadWzT4tLArOygem1aB8kDfQctac?usp=sharing
+     https://colab.research.google.com/drive/1rgiA-HHd5w8gIHtcS8_IaL3saVZKi7bO?usp=sharing
 
 
 #### 3) Stackoverflow
