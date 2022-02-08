@@ -1,14 +1,13 @@
-### 1) pandas_to_polars
-Code snippets for polars conversion
+#### 1) pandas_to_polars
+     Code snippets for polars conversion
 
 
-### 2) Colab examples
+#### 2) Colab examples
+     https://colab.research.google.com/drive/1Y5wKYadWzT4tLArOygem1aB8kDfQctac?usp=sharing
 
-https://colab.research.google.com/drive/1Y5wKYadWzT4tLArOygem1aB8kDfQctac?usp=sharing
 
-
-### 3) Stackoverflow
-https://stackoverflow.com/questions/tagged/python-polars
+#### 3) Stackoverflow
+    https://stackoverflow.com/questions/tagged/python-polars
 
 
 
