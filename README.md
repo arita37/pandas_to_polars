@@ -54,8 +54,50 @@ df.to_parquet('myfile.parquet.polars')
 
 ### Code Snippets 2
 ```python
+LINES = 10000
+districts = np.random.choice(['A', 'B', 'C', 'D'], size=LINES, replace=True)
+space = np.random.randint(1000, size=LINES)
+price = np.random.randint(1000, size=LINES)
+data = {
+    "District": districts,
+    "Space": space,
+    "Price": price,
+}
 
 
+def pandas_test():
+  df = pd.DataFrame(data)
+  agg_df = df.groupby(["District"]).agg([min, np.average])
+  apply_df = df.groupby("District").apply(lambda d: d.Space.sum() / d.Price.sum())
+  df.to_parquet('pandas1.parquet')
+  loaded_df = pd.read_parquet('pandas1.parquet')
+
+  return df, agg_df, apply_df, loaded_df
+
+
+def polars_test():
+  df = pl.DataFrame(data)
+  agg_df = df.groupby("District", maintain_order=True).agg([pl.mean("*"), pl.min("*")])
+  apply_df = df.groupby("District", maintain_order=True).agg(
+    pl.apply(
+        f=lambda spacePrice: spacePrice[0].sum() / spacePrice[1].sum(),
+        exprs=["Space", "Price"]
+        )
+  )
+  df.to_parquet('polars1.parquet')
+  loaded_df = pl.read_parquet('polars1.parquet')
+
+  return df, agg_df, apply_df, loaded_df
+
+pandas_result = pandas_test()
+polars_result = polars_test()
+
+
+print("Pandas:")
+%timeit pandas_test()
+
+print("Polars:")
+%timeit polars_test()
 
 
 ```
@@ -67,11 +109,11 @@ df.to_parquet('myfile.parquet.polars')
 
 
 
+### Code Snippets 3
+```python
 
 
-
-
-
+```
 
 
 
