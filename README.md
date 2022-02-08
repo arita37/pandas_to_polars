@@ -112,42 +112,41 @@ print("Polars:")
 
 
 ### Code Snippets 3
-```python
-
-
-```
-
-
-
-
 <table>
-<tr>
-<th> Good </th>
-<th> Bad </th>
-</tr>
-<tr>
-<td>
+<tr><th> Pandas </th> <th> Polars </th>
+</tr><tr><td>
 
-```c++
-int foo() {
-    int result = 4;
-    return result;
-}
+```python
+def pandas_test():
+  df = pd.DataFrame(data)
+  agg_df = df.groupby(["District"]).agg([min, np.average])
+  apply_df = df.groupby("District").apply(lambda d: d.Space.sum() / d.Price.sum())
+  df.to_parquet('pandas1.parquet')
+  loaded_df = pd.read_parquet('pandas1.parquet')
+
+  return df, agg_df, apply_df, loaded_df
+
 ```
 
-</td>
-<td>
+</td><td>
 
-```c++
-int foo() { 
-    int x = 4;
-    return x;
-}
+```python
+def polars_test():
+  df = pl.DataFrame(data)
+  agg_df = df.groupby("District", maintain_order=True).agg([pl.mean("*"), pl.min("*")])
+  apply_df = df.groupby("District", maintain_order=True).agg(
+    pl.apply(
+        f=lambda spacePrice: spacePrice[0].sum() / spacePrice[1].sum(),
+        exprs=["Space", "Price"]
+        )
+  )
+  df.to_parquet('polars1.parquet')
+  loaded_df = pl.read_parquet('polars1.parquet')
+
+  return df, agg_df, apply_df, loaded_df
 ```
 
-</td>
-</tr>
-</table>
+</td></tr></table>
 
 
 
