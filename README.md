@@ -1,20 +1,19 @@
-### pandas_to_polars
+### 1) pandas_to_polars
 Code snippets for polars conversion
 
 
-### Colab examples
+### 2) Colab examples
 
 https://colab.research.google.com/drive/1Y5wKYadWzT4tLArOygem1aB8kDfQctac?usp=sharing
 
 
-### Stackoverflow
+### 3) Stackoverflow
 https://stackoverflow.com/questions/tagged/python-polars
 
 
 
 
-### Code Snippets
-
+#### Code Snippets 1
 ```python
 nmin = 2
 nmax=5000
@@ -54,7 +53,7 @@ df.to_parquet('myfile.parquet.polars')
 
 
 
-### Code Snippets 2
+#### Code Snippets 2
 ```python
 LINES = 10000
 districts = np.random.choice(['A', 'B', 'C', 'D'], size=LINES, replace=True)
