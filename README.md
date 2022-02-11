@@ -149,7 +149,13 @@ pivot_pd = df_pd.explode(['reading', 'PCB_no']).pivot_table(
 # get the total number of readings by detector type
 readings_by_type_pd = df_pd.explode(['reading', 'PCB_no']).groupby('detector_type')[['reading']].count()\
     .rename(columns={'reading':'reading_count'}).sort_index()
-    
+
+# convert the pivot table to other types
+# python dictionary, arrow table, numpy array and json
+dict_pd = pivot_pd.to_dict()
+numpy_pd = pivot_pd.to_numpy()
+json_pd = pivot_pd.to_json()
+
 # alternatives in POLARS
 # there is no `pivot_table` in polars
 # we use `melt` and `pivot` instead
@@ -167,6 +173,15 @@ readings_by_type_pl = df_pl.explode(['reading', 'PCB_no']).groupby(
                 "detector_type", maintain_order=True
                 )[['reading']].count()
 
+# convert the pivot table to other types (same as pandas)
+# python dictionary, numpy array and json string
+dict_pl = pivot_pl.to_dict()
+numpy_pl = pivot_pl.to_numpy()
+json_pl = pivot_pl.to_json()
+
+
+# cconfirm that the numpy exports are identical from polars and pandas
+assert( (numpy_pd != numpy_pl).sum() == 0)
 ```
 
 
