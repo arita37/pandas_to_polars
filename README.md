@@ -116,7 +116,58 @@ print("Polars:")
 
 ```
 
+#### Code Snippet 3
+```python
 
+# make dataset
+N_ROWS = 50
+
+event_sizes = np.random.randint(1,9, size=N_ROWS)
+data = {
+    'timestamp': np.arange(N_ROWS, dtype=np.float16) \
+                    + np.random.randn(N_ROWS)+1,
+    'detector_type': np.random.choice(['MM', 'sTGC'], N_ROWS),
+    'sector_id': np.random.choice(np.arange(16)+1, N_ROWS),
+    'PCB_no': [np.random.choice(np.arange(4)+1, n)
+                    for n in event_sizes],
+    'reading': [np.random.randint(1, 1025, size=n)
+                for n in event_sizes]
+}
+
+df_pd = pd.DataFrame(data)
+df_pl = pl.from_pandas(df_pd)
+
+df_pl
+
+# pivot_table in PANDAS
+# get the mean value of 'PCB_no' and 'reading' through exploding and pivoting
+pivot_pd = df_pd.explode(['reading', 'PCB_no']).pivot_table(
+            index=[ 'timestamp', 'detector_type', 'sector_id'], 
+            values=['reading', 'PCB_no'], aggfunc=np.mean
+        ).sort_values('timestamp').reset_index()
+        
+# get the total number of readings by detector type
+readings_by_type_pd = df_pd.explode(['reading', 'PCB_no']).groupby('detector_type')[['reading']].count()\
+    .rename(columns={'reading':'reading_count'}).sort_index()
+    
+# alternatives in POLARS
+# there is no `pivot_table` in polars
+# we use `melt` and `pivot` instead
+pivot_pl = df_pl.explode(['reading', 'PCB_no']).melt(
+                id_vars=['timestamp', 'detector_type', 'sector_id'], 
+                value_vars=['PCB_no','reading']
+            ).pivot(index=[ 'timestamp','detector_type', 'sector_id'], 
+                columns='variable', values='value', 
+                aggregate_fn='mean') \
+        .sort('timestamp')
+
+# for the readings by type we can use the same pandas syntax (sort of)
+# this comes with the price of a DeprecationWarning :(
+readings_by_type_pl = df_pl.explode(['reading', 'PCB_no']).groupby(
+                "detector_type", maintain_order=True
+                )[['reading']].count()
+
+```
 
 
 
